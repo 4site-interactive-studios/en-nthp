@@ -1,6 +1,15 @@
 /* START Updated by 4Site on 2025-02-19 */
 /* REF: https://app.productive.io/2650-4site-interactive-studios-inc/tasks/10499330 */
 /* Used on Page Template: FY23 Acquisition Donation Template Rebuild */
+
+// Used by updateForFrequency, but outside of it so it only gets set once on pageload
+var crossReferenceValue = getUrlParameter('transaction.othamt1') || $("input[name='transaction.othamt1']").val();
+
+if (crossReferenceValue){
+    var singleCrossReferenceValue = crossReferenceValue.substring(0, 6) + "S" + crossReferenceValue.substring(7);
+    var monthlyCrossReferenceValue = crossReferenceValue.substring(0, 6) + "R" + crossReferenceValue.substring(7);
+}
+
 function updateForFrequency(freq, askchanged) {
     // Validate frequency parameter is either 'monthly' or 'one-time'
     if (typeof freq !== 'string' || !['monthly', 'one-time'].includes(freq)) {
@@ -8,16 +17,11 @@ function updateForFrequency(freq, askchanged) {
         return;
     }
 
+    // This "callOutSelection" functional call is not included on some versions of the "updateForFrequency" function.
     callOutSelection(freq);
 
-    // Store current donation amount and reference values
-    var currentSelectAmount;
-    var crossReferenceValue = getUrlParameter('transaction.othamt1') || $("input[name='transaction.othamt1']").val();
-    var monthlyCharacter = "R";
-    var referenceForMonthly = ($("input[name='transaction.othamt1']").val() || getUrlParameter('transaction.othamt1'));
-    var monthlyCrossReferenceValue = referenceForMonthly.substring(0, 6) + monthlyCharacter + referenceForMonthly.substring(7);
-
     // Determine currently selected donation amount from radio buttons or 'Other' input
+    var currentSelectAmount;
     $('.en__field--donationAmt input[type="radio"]').each(function() {
         if ($(this).is(':checked')) {
             currentSelectAmount = $(this).val() !== 'Other' 
@@ -34,7 +38,7 @@ function updateForFrequency(freq, askchanged) {
     } else if (freq === "one-time") {
         $('input[name="transaction.recurrpay"]').val('');
         $('input[name="transaction.recurrfreq"]').val('');
-        $("input[name='transaction.othamt1']").val(crossReferenceValue);
+        $("input[name='transaction.othamt1']").val(singleCrossReferenceValue);
     }
 
     // If askchanged is true, update donation amount UI after frequency change
