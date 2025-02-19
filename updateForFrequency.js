@@ -23,22 +23,11 @@ function updateForFrequency(freq, askchanged) {
         //update hidden field
         $('input[name="transaction.recurrpay"]').val('Y');
         $('input[name="transaction.recurrfreq"]').val('MONTHLY');
-
-        //update parent class for styling
-        /*if(($(".donation-amount__wpr").hasClass('five--amounts'))) {
-            $(".donation-amount__wpr").removeClass('five--amounts');
-        }*/
-
         $("input[name='transaction.othamt1']").val(monthlyCrossReferenceValue);
     } else if (frequency == "one-time") {
         //update hidden field
         $('input[name="transaction.recurrpay"]').val('');
         $('input[name="transaction.recurrfreq"]').val('');
-
-        //update parent class for styling
-        /*if(!($(".donation-amount__wpr").hasClass('five--amounts'))) {
-            $(".donation-amount__wpr").addClass('five--amounts');
-        }*/
         $("input[name='transaction.othamt1']").val(crossReferenceValue);
     }
 
