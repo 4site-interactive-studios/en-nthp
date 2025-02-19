@@ -1,3 +1,6 @@
+/* START Updated by 4Site on 2025-02-19 */
+/* REF: https://app.productive.io/2650-4site-interactive-studios-inc/tasks/10499330 */
+/* Used on Page Template: FY23 Acquisition Donation Template Rebuild */
 function updateForFrequency(freq, askchanged) {
     // Validate frequency parameter is either 'monthly' or 'one-time'
     if (typeof freq !== 'string' || !['monthly', 'one-time'].includes(freq)) {
@@ -59,3 +62,4 @@ function updateForFrequency(freq, askchanged) {
         }, 0);
     }
 }
+/* END Updated by 4Site on 2025-02-19 */
