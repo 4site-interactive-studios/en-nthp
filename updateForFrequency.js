@@ -9,7 +9,7 @@ function updateForFrequency(freq, askchanged) {
 
     // Get current donation amount before changes
     var currentSelectAmount;
-    var crossReferenceValue = getUrlParameter('transaction.othamt1');
+    var crossReferenceValue = getUrlParameter('transaction.othamt1') || $("input[name='transaction.othamt1']").val();
     var monthlyCharacter = "R";
     var referenceForMonthly = ($("input[name='transaction.othamt1']").val() || getUrlParameter('transaction.othamt1'));
     var monthlyCrossReferenceValue = referenceForMonthly.substring(0, 6) + monthlyCharacter + referenceForMonthly.substring(7);
