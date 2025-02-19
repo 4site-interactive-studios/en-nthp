@@ -1,5 +1,5 @@
 function updateForFrequency(freq, askchanged) {
-    // Input validation
+    // Validate frequency parameter is either 'monthly' or 'one-time'
     if (typeof freq !== 'string' || !['monthly', 'one-time'].includes(freq)) {
         console.error('Invalid frequency value');
         return;
@@ -7,14 +7,14 @@ function updateForFrequency(freq, askchanged) {
 
     callOutSelection(freq);
 
-    // Get current donation amount before changes
+    // Store current donation amount and reference values
     var currentSelectAmount;
     var crossReferenceValue = getUrlParameter('transaction.othamt1') || $("input[name='transaction.othamt1']").val();
     var monthlyCharacter = "R";
     var referenceForMonthly = ($("input[name='transaction.othamt1']").val() || getUrlParameter('transaction.othamt1'));
     var monthlyCrossReferenceValue = referenceForMonthly.substring(0, 6) + monthlyCharacter + referenceForMonthly.substring(7);
 
-    // Find selected donation amount
+    // Determine currently selected donation amount from radio buttons or 'Other' input
     $('.en__field--donationAmt input[type="radio"]').each(function() {
         if ($(this).is(':checked')) {
             currentSelectAmount = $(this).val() !== 'Other' 
@@ -23,7 +23,7 @@ function updateForFrequency(freq, askchanged) {
         }
     });
 
-    // Update recurring payment fields based on frequency
+    // Configure recurring payment settings based on frequency selection
     if (freq === "monthly") {
         $('input[name="transaction.recurrpay"]').val('Y');
         $('input[name="transaction.recurrfreq"]').val('MONTHLY');
@@ -34,11 +34,12 @@ function updateForFrequency(freq, askchanged) {
         $("input[name='transaction.othamt1']").val(crossReferenceValue);
     }
 
-    // Update donation amount selection if needed
+    // If askchanged is true, update donation amount UI after frequency change
     if (askchanged) {
         setTimeout(function() {
             var found = false;
             
+            // Reset all radio buttons and check the one matching current amount
             $('.en__field--donationAmt input[type="radio"]').each(function() {
                 $(this).prop('checked', false);
                 if ($(this).val() === currentSelectAmount) {
@@ -48,6 +49,7 @@ function updateForFrequency(freq, askchanged) {
                 }
             });
 
+            // If no matching radio button found, select 'Other' and set custom amount
             if (!found) {
                 $('.en__field--donationAmt input[value="Other"]').prop('checked', true);
                 $('.en__field__input--other')
